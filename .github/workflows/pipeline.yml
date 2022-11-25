@@ -34,9 +34,9 @@ jobs:
   deploy-beta:
     runs-on: ubuntu-22.04
     environment:
-      name: deploy-staging
+      name: beta
       url: 'myholidays-beta.com'
-    needs: build
+    needs: deploy-staging
     steps:
       - name: Run a one-line script
         run: echo Deploy beta
