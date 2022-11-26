@@ -9,4 +9,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build-env /app/out .
 
-ENTRYPOINT ["dotnet", "Api.dll"]
+#ENTRYPOINT ["dotnet", "Api.dll"]
+CMD ASPNETCORE_URLS="http://*:$PORT" dotnet Api.dll

@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-22.04
     environment:
       name: staging
-      url: 'myholidays-staging.com'
+      url: 'https://myholidays-staging.com'
     needs: build
     steps:
       - name: Run a one-line script
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-22.04
     environment:
       name: beta
-      url: 'myholidays-beta.com'
+      url: 'https://myholidays-beta.com'
     needs: deploy-staging
     steps:
       - name: Run a one-line script
@@ -45,8 +45,15 @@ jobs:
     runs-on: ubuntu-22.04
     environment:
       name: production
-      url: 'myholidays.com'
+      url: 'https://my-holidays-api.herokuapp.com/swagger/index.html'
     needs: deploy-beta
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
     steps:
-      - name: Run a one-line script
-        run: echo Deploy production
+      - uses: actions/checkout@v3
+      - name: Login to Heroku Container Registry
+        run: cd Api && heroku container:login
+      - name: Build and push
+        run: cd Api && heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+      - name: Release
+        run: cd Api && heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
