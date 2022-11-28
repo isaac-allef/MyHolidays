@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    if: github.event.action != 'closed' || github.event.pull_request.merged == true
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
@@ -23,6 +24,7 @@ jobs:
       run: cd Tests && dotnet test --no-build --verbosity normal
   
   deploy-staging:
+    if: github.event.action != 'closed' || github.event.pull_request.merged == true
     runs-on: ubuntu-22.04
     environment:
       name: staging
