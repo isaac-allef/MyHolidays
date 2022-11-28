@@ -32,7 +32,7 @@ jobs:
         run: echo Deploy staging
   
   deploy-beta:
-    if: github.event.pull_request.merged == true && (contains(github.ref, 'develop') || contains(github.ref, 'main'))
+    if: (github.event.pull_request.merged == true && contains(github.ref, 'develop')) || contains(github.ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: beta
