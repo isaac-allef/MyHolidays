@@ -31,7 +31,7 @@ jobs:
         run: echo Deploy staging
   
   deploy-beta:
-    if: contains('develop', github.ref) || contains('main', github.ref)
+    if: contains(github.ref, 'develop') || contains(github.ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: beta
@@ -41,7 +41,7 @@ jobs:
         run: echo Deploy beta
   
   deploy-production:
-    if: contains('main', github.ref)
+    if: contains(github.ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: production
