@@ -25,23 +25,23 @@ jobs:
     runs-on: ubuntu-22.04
     environment:
       name: staging
-      url: 'https://myholidays-staging.com'
     needs: build
     steps:
       - name: Run a one-line script
         run: echo Deploy staging
   
   deploy-beta:
+    if: contains(github.ref, 'develop') || contains(github.ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: beta
-      url: 'https://myholidays-beta.com'
     needs: deploy-staging
     steps:
       - name: Run a one-line script
         run: echo Deploy beta
   
   deploy-production:
+    if: contains(github.ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: production
