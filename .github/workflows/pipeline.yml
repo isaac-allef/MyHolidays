@@ -32,7 +32,7 @@ jobs:
         run: echo Deploy staging
   
   deploy-beta:
-    if: (github.event.pull_request.merged == true && contains(github.ref, 'develop')) || contains(github.ref, 'main')
+    if: (github.event.pull_request.merged == true && contains(github.base_ref, 'develop')) || contains(github.base_ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: beta
@@ -42,7 +42,7 @@ jobs:
         run: echo Deploy beta
   
   deploy-production:
-    if: github.event.pull_request.merged == true && contains(github.ref, 'main')
+    if: github.event.pull_request.merged == true && contains(github.base_ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: production
