@@ -3,6 +3,7 @@ name: MyHolidays
 on:
   workflow_dispatch:
   pull_request:
+    types: [opened, reopened, closed]
     branches: [ "develop", "main" ]
 
 jobs:
@@ -31,7 +32,7 @@ jobs:
         run: echo Deploy staging
   
   deploy-beta:
-    if: contains(github.ref, 'develop') || contains(github.ref, 'main')
+    if: github.event.pull_request.merged == true && (contains(github.ref, 'develop') || contains(github.ref, 'main'))
     runs-on: ubuntu-22.04
     environment:
       name: beta
@@ -41,7 +42,7 @@ jobs:
         run: echo Deploy beta
   
   deploy-production:
-    if: contains(github.ref, 'main')
+    if: github.event.pull_request.merged == true && contains(github.ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: production
