@@ -3,6 +3,7 @@ name: MyHolidays
 on:
   workflow_dispatch:
   pull_request:
+    types: [opened, reopened, closed]
     branches: [ "develop", "main" ]
 
 jobs:
@@ -25,23 +26,23 @@ jobs:
     runs-on: ubuntu-22.04
     environment:
       name: staging
-      url: 'https://myholidays-staging.com'
     needs: build
     steps:
       - name: Run a one-line script
         run: echo Deploy staging
   
   deploy-beta:
+    if: (github.event.pull_request.merged == true && contains(github.base_ref, 'develop')) || contains(github.base_ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: beta
-      url: 'https://myholidays-beta.com'
     needs: deploy-staging
     steps:
       - name: Run a one-line script
         run: echo Deploy beta
   
   deploy-production:
+    if: github.event.pull_request.merged == true && contains(github.base_ref, 'main')
     runs-on: ubuntu-22.04
     environment:
       name: production
