@@ -43,5 +43,5 @@ jobs:
         shell: pwsh
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaac-allef_MyHolidays" /o:"isaac-allef" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          cd Api && dotnet restore && dotnet build --no-restore && cd ../Tests && dotnet test --no-build --verbosity normal
+          cd Api && dotnet restore && dotnet build --no-restore && cd ../Tests && dotnet test --no-build --verbosity normal && cd ../
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
