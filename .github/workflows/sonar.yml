@@ -42,7 +42,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: pwsh
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaac-allef_MyHolidays" /o:"isaac-allef" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
-          cd Api && dotnet build --no-incremental
-          cd ../Tests && dotnet tool install --global dotnet-coverage && dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaac-allef_MyHolidays" /o:"isaac-allef" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          cd Api && dotnet restore && dotnet build --no-restore && cd ../Tests && dotnet test --no-build --verbosity normal
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
