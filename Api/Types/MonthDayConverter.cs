@@ -19,12 +19,9 @@ namespace MyHolidays.Types
         public override object ConvertFrom(ITypeDescriptorContext context, 
             CultureInfo culture, object value)
         {
-            if (value is string)
+            if (value is string v && MonthDay.TryParse(v, out var result))
             {
-                if (MonthDay.TryParse((string)value, out var result))
-                {
-                    return result;
-                }
+                return result;
             }
             return base.ConvertFrom(context, culture, value);
         }
