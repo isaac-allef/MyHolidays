@@ -21,12 +21,9 @@ namespace MyHolidays.Repositories
         {
             var holidaysCollections = new List<HolidaysCollection>();
 
-            foreach (var name in holidaysCollectionsNames)
+            foreach (var name in holidaysCollectionsNames.Where(name => memory.ContainsKey(name)))
             {
-                if (memory.ContainsKey(name))
-                {
-                    holidaysCollections.Add(memory[name]);
-                }
+                holidaysCollections.Add(memory[name]);
             }
 
             return await Task.Run(() => holidaysCollections);
